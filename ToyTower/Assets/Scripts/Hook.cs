@@ -3,31 +3,28 @@ using UnityEngine;
 
 public class Hook : MonoBehaviour {
 
-    public float speed = 1f;
-    public float length = 1f;
-    public Box box;
+    public Box boxPrefab;
 
     private void Update() {
 
-        //sol sağ git gel
         transform.position = new Vector3(
-            Mathf.PingPong(Time.time * speed, length) * 2f - length,
-            Game.instance.cam.orthographicSize * 2f,
+            Mathf.PingPong(Time.time * 1.5f, 2f) * 2f - 2f,
+            Play.instance.cam.orthographicSize * 2f,
             0f
         );
 
-        //herhangi bir tuşa basıldığında kutuyu bırak
-        if (Input.anyKeyDown) {
+        if (boxPrefab.gameObject.activeSelf && Input.anyKeyDown) {
             StartCoroutine(drop());
         }
 
     }
 
     private IEnumerator drop() {
-        box.gameObject.SetActive(false);
-        box.drop();
+        Play.instance.addScore();
+        boxPrefab.gameObject.SetActive(false);
+        boxPrefab.createClone();
         yield return new WaitForSeconds(1f);
-        box.gameObject.SetActive(true);
+        boxPrefab.gameObject.SetActive(true);
     }
 
 }

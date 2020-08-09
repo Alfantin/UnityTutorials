@@ -4,20 +4,18 @@ using UnityEngine.UI;
 
 public class Gameover : MonoBehaviour {
 
-    public static int currentScore;
-
     public Text scoreText;
     public Text bestText;
 
     private void Start() {
 
         var bestscore = PlayerPrefs.GetInt("bestscore", 0);
-        if (currentScore > bestscore) {
-            bestscore = currentScore;
+        if (Play.score > bestscore) {
+            bestscore = Play.score;
             PlayerPrefs.SetInt("bestscore", bestscore);
         }
 
-        scoreText.text = currentScore.ToString();
+        scoreText.text = Play.score.ToString();
         bestText.text = bestscore.ToString();
     }
 

@@ -1,19 +1,23 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 
-[RequireComponent(typeof(Rigidbody2D))]
-[RequireComponent(typeof(BoxCollider2D))]
 public class Box : MonoBehaviour {
 
-    public void drop() {
+    public void createClone() {
         var clone = Instantiate(gameObject, transform.position, Quaternion.identity);
         clone.GetComponent<Rigidbody2D>().gravityScale = 1f;
         clone.gameObject.SetActive(true);
-        Game.instance.addScore();
     }
 
     private void Update() {
-        if (transform.position.y < -2f) { 
-            Game.instance.gameover();
+        if (transform.position.y < -6f) {
+            SceneManager.LoadScene("Gameover");
+        }
+    }
+
+    private void OnCollisionStay2D(Collision2D collision) {
+        if (transform.position.y > Play.instance.height) {
+            Play.instance.height = transform.position.y;
         }
     }
 
